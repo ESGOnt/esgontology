@@ -1,0 +1,235 @@
+@prefix : <http://www.semanticweb.org/esg-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix onto-sustain: <http://www.example.org/onto-sustain#> .
+
+### Module ESGOnt Impact Mapper (ESGOnt-IM)
+:Category a owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Category" .
+
+# Subclasses of Category
+:AccessToBasicServices rdfs:subClassOf :Category .
+:AccessToHealthcare rdfs:subClassOf :Category .
+# ... (List all other subclasses of Category similarly)
+
+:Domain a owl:Class ;
+    rdfs:label "Domain" .
+
+:Environment rdfs:subClassOf :Domain .
+:Social rdfs:subClassOf :Domain .
+:Governance rdfs:subClassOf :Domain .
+
+# Object Properties for IM
+:hasDomain a owl:ObjectProperty ;
+    rdfs:domain :Category ;
+    rdfs:range :Domain .
+
+:impacts a owl:ObjectProperty ;
+    rdfs:domain :Category ;
+    rdfs:range :SDG .
+
+:hasWeight a owl:ObjectProperty ;
+    rdfs:domain :Category ;
+    rdfs:range :Weight .
+
+:hasCause a owl:ObjectProperty ;
+    rdfs:domain :Category ;
+    rdfs:range :CausalRelationship .
+
+:hasEffect a owl:ObjectProperty ;
+    rdfs:domain :Category ;
+    rdfs:range :CausalRelationship .
+
+### Module ESGOnt Data Integrator (ESGOnt-DI)
+:OperationalUnit a owl:Class ;
+    rdfs:label "Operational Unit" .
+
+:WaterUsage a owl:Class .
+:WasteOutput a owl:Class .
+:Calculation a owl:Class .
+:WasteProcessing a owl:Class .
+:ProcessedMaterial a owl:Class .
+:Unit a owl:Class .
+:WasteCategory a owl:Class .
+
+# Object Properties for DI
+:consumesWater a owl:ObjectProperty ;
+    rdfs:domain :OperationalUnit ;
+    rdfs:range :WaterUsage .
+
+:generatesWaste a owl:ObjectProperty ;
+    rdfs:domain :OperationalUnit ;
+    rdfs:range :WasteOutput .
+
+:hasWUCalculation a owl:ObjectProperty ;
+    rdfs:domain :WaterUsage ;
+    rdfs:range :Calculation .
+
+:hasWOCalculation a owl:ObjectProperty ;
+    rdfs:domain :WasteOutput ;
+    rdfs:range :Calculation .
+
+:processedBy a owl:ObjectProperty ;
+    rdfs:domain :WasteOutput ;
+    rdfs:range :WasteProcessing .
+
+:categorizedAs a owl:ObjectProperty ;
+    rdfs:domain :WasteOutput ;
+    rdfs:range :WasteCategory .
+
+:resultsIn a owl:ObjectProperty ;
+    rdfs:domain :WasteProcessing ;
+    rdfs:range :ProcessedMaterial .
+
+:hasCalcUnit a owl:ObjectProperty ;
+    rdfs:domain :Calculation ;
+    rdfs:range :Unit .
+
+### Module ESGOnt Performance Assessment (ESGOnt-PA)
+:AssessmentNode a owl:Class .
+:CalculatedValue a owl:Class .
+:PerformanceIndicator a owl:Class .
+:ReportingValue a owl:Class .
+:DisclosureStandard a owl:Class .
+
+# Object Properties for PA
+:hasAssessmentValue a owl:ObjectProperty ;
+    rdfs:domain :AssessmentNode ;
+    rdfs:range :CalculatedValue .
+
+:hasReValue a owl:ObjectProperty ;
+    rdfs:domain :AssessmentNode ;
+    rdfs:range :ReportingValue .
+
+:isDerivedFromIndicator a owl:ObjectProperty ;
+    rdfs:domain :CalculatedValue ;
+    rdfs:range :PerformanceIndicator .
+
+:belongsToCategory a owl:ObjectProperty ;
+    rdfs:domain :PerformanceIndicator ;
+    rdfs:range :Category .
+
+:hasUnit a owl:ObjectProperty ;
+    rdfs:domain :ReportingValue ;
+    rdfs:range :Unit .
+
+:isValueOfIndicator a owl:ObjectProperty ;
+    rdfs:domain :ReportingValue ;
+    rdfs:range :PerformanceIndicator .
+
+:associatesWith a owl:ObjectProperty ;
+    rdfs:domain onto-sustain:StandardIndicator ;
+    rdfs:range :PerformanceIndicator .
+
+:guidesAction a owl:ObjectProperty ;
+    rdfs:domain :DisclosureStandard ;
+    rdfs:range :Action .
+
+:influencesMI a owl:ObjectProperty ;
+    rdfs:domain :DisclosureStandard ;
+    rdfs:range :MaturityIndicator .
+
+:contributesTo a owl:ObjectProperty ;
+    rdfs:domain :DisclosureStandard ;
+    rdfs:range :SDG .
+
+:influenceIndicator a owl:ObjectProperty ;
+    rdfs:domain :DisclosureStandard ;
+    rdfs:range :PerformanceIndicator .
+
+# Subclasses of DisclosureStandard
+:GRIStandard rdfs:subClassOf :DisclosureStandard .
+:ESRSStandard rdfs:subClassOf :DisclosureStandard .
+:SASBStandard rdfs:subClassOf :DisclosureStandard .
+
+### Module ESGOnt Maturity Evaluator (ESGOnt-ME)
+:Organization a owl:Class .
+:CategoryMaturity a owl:Class .
+:DomainMaturity a owl:Class .
+:MaturityLevel a owl:Class .
+:Objective a owl:Class .
+:Action a owl:Class .
+:MaturityScore a owl:Class .
+
+# Object Properties for ME
+:hasCM a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :CategoryMaturity .
+
+:hasDM a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :DomainMaturity .
+
+:hasML a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :MaturityLevel .
+
+:hasCategory a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :Category .
+
+:hasOperationalUnit a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :OperationalUnit .
+
+:isLinkedTo a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :AssessmentNode .
+
+:hasRecommendedAction a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :Action .
+
+:hasObjective a owl:ObjectProperty ;
+    rdfs:domain :Organization ;
+    rdfs:range :Objective .
+
+:hasMI a owl:ObjectProperty ;
+    rdfs:domain :Objective ;
+    rdfs:range :MaturityIndicator .
+
+# Subclasses of Action
+:WaterEfficiency rdfs:subClassOf :Action .
+:WaterRecycling rdfs:subClassOf :Action .
+:WasteReduction rdfs:subClassOf :Action .
+:WasteRecycling rdfs:subClassOf :Action .
+
+:isRecomendedFor a owl:ObjectProperty ;
+    rdfs:domain :Action ;
+    rdfs:range :AssessmentNode .
+
+:hasTarget a owl:ObjectProperty ;
+    rdfs:domain :Action ;
+    rdfs:range :SDG .
+
+# Maturity Score Properties
+:hasCurrentCM a owl:ObjectProperty ;
+    rdfs:domain :CategoryMaturity ;
+    rdfs:range :CurrentCategoryMaturity .
+
+:hasTargetCM a owl:ObjectProperty ;
+    rdfs:domain :CategoryMaturity ;
+    rdfs:range :TargetCategoryMaturity .
+
+:hasMaturityScore a owl:ObjectProperty ;
+    rdfs:domain :CategoryMaturity ;
+    rdfs:range :MaturityScore .
+
+:determineCM a owl:ObjectProperty ;
+    rdfs:domain :MaturityScore ;
+    rdfs:range :CategoryMaturity .
+
+:determineDM a owl:ObjectProperty ;
+    rdfs:domain :MaturityScore ;
+    rdfs:range :DomainMaturity .
+
+:determineML a owl:ObjectProperty ;
+    rdfs:domain :MaturityScore ;
+    rdfs:range :MaturityLevel .
+
+:meetsMI a owl:ObjectProperty ;
+    rdfs:domain :MaturityScore ;
+    rdfs:range :MaturityIndicator .
