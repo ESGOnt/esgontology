@@ -13,7 +13,6 @@
 # Subclasses of Category
 :AccessToBasicServices rdfs:subClassOf :Category .
 :AccessToHealthcare rdfs:subClassOf :Category .
-# ... (List all other subclasses of Category similarly)
 
 :Domain a owl:Class ;
     rdfs:label "Domain" .
